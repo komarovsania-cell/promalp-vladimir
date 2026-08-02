@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IconCarabiner, IconPhone } from "./icons";
+import { IconPhone } from "./icons";
 import { site } from "@/lib/site";
 
 const links = [
   { href: "#services", label: "Услуги" },
   { href: "#about", label: "Почему мы" },
+  { href: "#portfolio", label: "Портфолио" },
   { href: "#process", label: "Как работаем" },
   { href: "#coverage", label: "География" },
   { href: "#contact", label: "Контакты" },
@@ -32,7 +33,12 @@ export default function Header() {
     >
       <div className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-[4.5rem]">
         <a href="#top" className="flex items-center gap-2.5 group">
-          <IconCarabiner className="w-7 h-7 text-gold group-hover:text-gold-bright transition-colors" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.png"
+            alt={site.companyName}
+            className="w-10 h-10 rounded-full transition-transform group-hover:scale-105"
+          />
           <span className="font-display font-semibold tracking-tight text-paper text-base md:text-lg">
             {site.companyName}
           </span>
