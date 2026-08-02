@@ -9,11 +9,11 @@ const API_BASE = "https://cloud-api.yandex.net/v1/disk/resources";
 
 const HEADERS = ["Дата", "Имя", "Телефон", "Тип работ", "Комментарий"];
 
-function authHeaders(token) {
+function authHeaders(token: string) {
   return { Authorization: `OAuth ${token}` };
 }
 
-async function downloadExistingWorkbook(token) {
+async function downloadExistingWorkbook(token: string): Promise<any> {
   const linkRes = await fetch(
     `${API_BASE}/download?path=${encodeURIComponent(DISK_PATH)}`,
     { headers: authHeaders(token) }
@@ -30,11 +30,11 @@ async function downloadExistingWorkbook(token) {
 
   const buf = await fileRes.arrayBuffer();
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.load(buf);
+  await wb.xlsx.load(buf as any);
   return wb;
 }
 
-function createWorkbook() {
+function createWorkbook(): any {
   const wb = new ExcelJS.Workbook();
   const ws = wb.addWorksheet("Заявки");
   ws.columns = [
@@ -48,7 +48,7 @@ function createWorkbook() {
   return wb;
 }
 
-async function uploadWorkbook(token, wb) {
+async function uploadWorkbook(token: string, wb: any) {
   const uploadLinkRes = await fetch(
     `${API_BASE}/upload?path=${encodeURIComponent(DISK_PATH)}&overwrite=true`,
     { headers: authHeaders(token) }
@@ -62,7 +62,7 @@ async function uploadWorkbook(token, wb) {
 
   const putRes = await fetch(href, {
     method: method || "PUT",
-    body: buffer,
+    body: buffer as any,
     headers: {
       "Content-Type": "application/octet-stream",
     },
@@ -73,7 +73,7 @@ async function uploadWorkbook(token, wb) {
   }
 }
 
-export async function POST(req) {
+export async function POST(req: NextRequest) {
   try {
     const token = process.env.YANDEX_DISK_TOKEN;
     if (!token) {
