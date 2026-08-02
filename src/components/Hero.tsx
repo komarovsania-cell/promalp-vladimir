@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { IconArrowRight, IconRig } from "./icons";
+import { IconArrowRight } from "./icons";
 import { site } from "@/lib/site";
 
 const stats = [
@@ -11,8 +11,17 @@ const stats = [
   { value: "5 000 ₽", label: "минимальный заказ" },
 ];
 
+const SLIDESHOW_IMAGES = [
+  "/portfolio/portfolio-01-uteplenie.jpg",
+  "/portfolio/portfolio-05-atrium.jpg",
+  "/portfolio/portfolio-07-krysha.jpg",
+  "/portfolio/portfolio-08-steklomoy.jpg",
+  "/portfolio/portfolio-04-opory.jpg",
+];
+
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -22,7 +31,7 @@ export default function Hero() {
         .fromTo(".hero-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.35")
         .fromTo(".hero-cta", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.08 }, "-=0.4")
         .fromTo(".hero-stat", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.1 }, "-=0.3")
-        .fromTo(".hero-rope path", { opacity: 0 }, { opacity: 1, duration: 1.2, stagger: 0.15 }, "-=1");
+        .fromTo(".hero-photo-card", { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.9 }, "-=0.6");
 
       gsap.to(".hero-glow", {
         x: 40,
@@ -34,6 +43,13 @@ export default function Hero() {
       });
     }, rootRef);
     return () => ctx.revert();
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setSlide((s) => (s + 1) % SLIDESHOW_IMAGES.length);
+    }, 3500);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -92,16 +108,40 @@ export default function Hero() {
         </div>
 
         <div className="relative hidden lg:flex items-center justify-center">
-          <div className="relative w-full aspect-[3/4] max-w-sm rounded-[28px] border border-ink-border bg-ink-surface/50 backdrop-blur-sm overflow-hidden">
-            <svg className="hero-rope absolute inset-0 w-full h-full" viewBox="0 0 300 400" fill="none">
-              <path d="M150 10 L150 200" stroke="#c9a24a" strokeWidth="1.5" strokeDasharray="3 5" opacity="0.5" />
-              <path d="M150 200 C 150 260, 90 240, 90 300" stroke="#c9a24a" strokeWidth="1.5" strokeDasharray="3 5" opacity="0.5" />
-              <path d="M150 200 C 150 260, 210 240, 210 300" stroke="#c9a24a" strokeWidth="1.5" strokeDasharray="3 5" opacity="0.5" />
-              <circle cx="150" cy="200" r="4" fill="#c9a24a" opacity="0.8" />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <IconRig className="w-40 h-40 text-gold/80" />
+          <div className="hero-photo-card relative w-full aspect-[3/4] max-w-sm rounded-[28px] border border-ink-border overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover scale-125 opacity-25 blur-[2px]"
+            />
+            <div className="absolute inset-0 bg-ink/70" />
+
+            {SLIDESHOW_IMAGES.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                key={src}
+                src={src}
+                alt="Промышленный альпинизм — выполненные работы"
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                  i === slide ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ))}
+
+            <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/5 to-transparent" />
+
+            <div className="absolute top-5 left-5 flex gap-1.5">
+              {SLIDESHOW_IMAGES.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    i === slide ? "w-6 bg-gold" : "w-1.5 bg-paper/40"
+                  }`}
+                />
+              ))}
             </div>
+
             <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-ink-border bg-ink/80 backdrop-blur px-5 py-4">
               <div className="text-xs uppercase tracking-wider text-gold mb-1">Гарантия</div>
               <div className="text-sm text-paper-muted">Договор, акты, чеки на каждый объект</div>
