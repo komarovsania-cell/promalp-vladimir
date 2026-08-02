@@ -33,6 +33,14 @@ export const metadata: Metadata = {
       "Высотные работы любой сложности без посредников. Опыт 10+ лет, договор, гарантия.",
     locale: "ru_RU",
     type: "website",
+    images: ["/logo.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: "/icon.png",
   },
 };
 
@@ -48,4 +56,3 @@ export default function RootLayout({
     </html>
   );
 }
-
