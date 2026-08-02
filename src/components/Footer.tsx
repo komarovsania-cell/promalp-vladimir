@@ -1,4 +1,4 @@
-import { IconCarabiner, IconPhone } from "./icons";
+import { IconPhone } from "./icons";
 import { site } from "@/lib/site";
 
 export default function Footer() {
@@ -7,7 +7,8 @@ export default function Footer() {
     <footer className="border-t border-ink-border py-12">
       <div className="max-w-7xl mx-auto px-5 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2.5">
-          <IconCarabiner className="w-5 h-5 text-gold" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt={site.companyName} className="w-8 h-8 rounded-full" />
           <span className="font-display font-semibold text-paper text-sm">
             {site.companyName}
           </span>
