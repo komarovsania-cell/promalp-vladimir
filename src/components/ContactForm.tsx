@@ -75,24 +75,6 @@ export default function ContactForm() {
                 </span>
                 <span className="font-display font-semibold">{site.phoneDisplay}</span>
               </a>
-              <div className="flex gap-3 text-sm">
-                <a
-                  href={site.whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-ink-border px-4 py-2 text-paper-muted hover:border-gold/50 hover:text-gold transition-colors"
-                >
-                  WhatsApp
-                </a>
-                <a
-                  href={site.telegramHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-ink-border px-4 py-2 text-paper-muted hover:border-gold/50 hover:text-gold transition-colors"
-                >
-                  Telegram
-                </a>
-              </div>
             </Reveal>
           </div>
 
