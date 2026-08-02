@@ -33,22 +33,26 @@ export default function Coverage() {
         </div>
 
         <Reveal className="relative aspect-square max-w-md mx-auto w-full" y={20}>
-          <svg viewBox="0 0 400 400" className="w-full h-full">
-            <circle cx="200" cy="200" r="180" stroke="#262a31" strokeWidth="1" fill="none" />
-            <circle cx="200" cy="200" r="130" stroke="#262a31" strokeWidth="1" fill="none" />
-            <circle cx="200" cy="200" r="80" stroke="#262a31" strokeWidth="1" fill="none" />
-            <line x1="20" y1="200" x2="380" y2="200" stroke="#262a31" strokeWidth="1" />
-            <line x1="200" y1="20" x2="200" y2="380" stroke="#262a31" strokeWidth="1" />
+          <svg viewBox="0 0 440 320" className="w-full h-full">
+            <path
+              d="M75 95 L100 65 L140 55 L175 72 L205 58 L245 65 L280 52 L320 68 L355 58 L385 85
+                 L378 115 L400 135 L415 150 L405 175 L418 195 L402 218 L410 240 L388 258 L368 275
+                 L338 290 L305 300 L272 293 L240 305 L208 293 L180 278 L152 285 L122 262 L98 268
+                 L72 240 L82 215 L55 195 L70 170 L48 145 L60 115 L42 98 Z"
+              fill="#161a20"
+              stroke="#2f343c"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
 
-            <circle cx="200" cy="200" r="7" fill="#c9a24a" />
-            <circle cx="200" cy="200" r="14" fill="none" stroke="#c9a24a" strokeWidth="1" opacity="0.5" />
+            <circle cx="110" cy="92" r="4.5" fill="#e6c778" />
+            <circle cx="292" cy="140" r="4.5" fill="#e6c778" />
+            <circle cx="352" cy="252" r="4.5" fill="#e6c778" />
 
-            <circle cx="150" cy="120" r="4.5" fill="#e6c778" />
-            <circle cx="290" cy="150" r="4.5" fill="#e6c778" />
-            <circle cx="270" cy="290" r="4.5" fill="#e6c778" />
-            <circle cx="110" cy="280" r="4.5" fill="#e6c778" />
+            <circle cx="228" cy="178" r="7" fill="#c9a24a" />
+            <circle cx="228" cy="178" r="14" fill="none" stroke="#c9a24a" strokeWidth="1" opacity="0.5" />
 
-            <text x="200" y="235" textAnchor="middle" fill="#f3f1ea" fontSize="13" fontFamily="var(--font-display)">
+            <text x="228" y="205" textAnchor="middle" fill="#f3f1ea" fontSize="13" fontFamily="var(--font-display)">
               Владимир
             </text>
           </svg>
