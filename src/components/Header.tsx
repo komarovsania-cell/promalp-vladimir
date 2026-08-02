@@ -44,12 +44,12 @@ export default function Header() {
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-1">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-paper-muted hover:text-gold transition-colors"
+              className="text-sm text-paper-muted hover:text-gold hover:bg-ink-surface/70 transition-colors px-3.5 py-2 rounded-full"
             >
               {l.label}
             </a>
@@ -90,7 +90,7 @@ export default function Header() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="text-paper text-base"
+              className="text-paper text-base hover:text-gold transition-colors"
             >
               {l.label}
             </a>
