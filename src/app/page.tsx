@@ -6,7 +6,6 @@ import FeaturedServices from "@/components/FeaturedServices";
 import Services from "@/components/Services";
 import Calculator from "@/components/Calculator";
 import Portfolio from "@/components/Portfolio";
-import Coverage from "@/components/Coverage";
 import Process from "@/components/Process";
 import FAQ from "@/components/FAQ";
 import ContactForm from "@/components/ContactForm";
@@ -23,7 +22,6 @@ export default function Home() {
       <Services />
       <Calculator />
       <Portfolio />
-      <Coverage />
       <Process />
       <FAQ />
       <ContactForm />
