@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { IconArrowRight } from "./icons";
 import { site } from "@/lib/site";
@@ -11,17 +11,8 @@ const stats = [
   { value: "5 000 ₽", label: "минимальный заказ" },
 ];
 
-const SLIDESHOW_IMAGES = [
-  "/portfolio/portfolio-01-uteplenie.jpg",
-  "/portfolio/portfolio-05-atrium.jpg",
-  "/portfolio/portfolio-07-krysha.jpg",
-  "/portfolio/portfolio-08-steklomoy.jpg",
-  "/portfolio/portfolio-04-opory.jpg",
-];
-
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -43,13 +34,6 @@ export default function Hero() {
       });
     }, rootRef);
     return () => ctx.revert();
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setSlide((s) => (s + 1) % SLIDESHOW_IMAGES.length);
-    }, 3500);
-    return () => clearInterval(id);
   }, []);
 
   return (
@@ -117,30 +101,18 @@ export default function Hero() {
             />
             <div className="absolute inset-0 bg-ink/70" />
 
-            {SLIDESHOW_IMAGES.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={src}
-                src={src}
-                alt="Промышленный альпинизм — выполненные работы"
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                  i === slide ? "opacity-100" : "opacity-0"
-                }`}
-              />
-            ))}
+            <video
+              className="absolute inset-0 w-full h-full object-cover"
+              src="/hero-video.mp4"
+              poster="/hero-video-poster.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            />
 
             <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/5 to-transparent" />
-
-            <div className="absolute top-5 left-5 flex gap-1.5">
-              {SLIDESHOW_IMAGES.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1 rounded-full transition-all duration-500 ${
-                    i === slide ? "w-6 bg-gold" : "w-1.5 bg-paper/40"
-                  }`}
-                />
-              ))}
-            </div>
 
             <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-ink-border bg-ink/80 backdrop-blur px-5 py-4">
               <div className="text-xs uppercase tracking-wider text-gold mb-1">Гарантия</div>
