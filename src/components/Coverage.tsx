@@ -33,30 +33,37 @@ export default function Coverage() {
         </div>
 
         <Reveal className="relative aspect-[8/5] max-w-md mx-auto w-full" y={20}>
-          <svg viewBox="0 0 480 300" className="w-full h-full">
+          <svg viewBox="0 0 1072 659" className="w-full h-full">
             <path
-              d="M70 40 L130 15 L190 35 L230 20 L270 35 L310 15 L360 40 L400 30 L440 55
-                 L465 90 L450 130 L470 150 L455 180 L430 200 L440 230 L410 250 L380 270
-                 L340 290 L300 280 L270 295 L230 285 L190 270 L150 280 L120 255 L90 265
-                 L60 235 L75 205 L45 190 L65 165 L35 150 L55 120 L30 100 L50 75 L25 60 L45 35 Z"
+              d="M20 65 L38 80 L18 108 L48 118 L68 103 L88 113 L110 103 L130 113 L152 103 L175 113 L198 103
+                 L213 88 L225 55 L240 30 L255 17 L272 25 L288 48 L300 27 L315 14 L330 38 L345 65 L357 95 L362 118
+                 L378 122 L395 105 L415 118 L423 150 L430 175 L443 155 L455 110 L472 100 L495 108 L515 97
+                 L560 95 L600 110 L650 100 L700 115 L740 105 L745 105 L730 140 L755 175 L740 210 L765 245
+                 L800 230 L830 200 L860 190 L890 200 L920 190 L950 205 L985 195 L1015 215 L1045 245 L1060 285
+                 L1040 325 L1010 350 L975 340 L945 365 L915 385 L885 370 L855 390 L825 410
+                 L800 430 L775 450 L810 460 L780 480 L750 470 L720 490 L690 475 L660 500 L630 485 L600 510 L570 530
+                 L700 625 L665 610 L635 590 L605 610 L575 595 L545 580 L515 590 L485 570
+                 L455 555 L425 535 L395 545 L365 525 L335 540 L305 520 L275 505 L245 485 L215 465 L190 440
+                 L165 410 L140 385 L115 360 L90 340 L60 320 L30 310
+                 L15 290 L28 270 L8 250 L22 225 L8 195 L25 165 L10 140 Z"
               fill="#161a20"
               stroke="#2f343c"
-              strokeWidth="1.5"
+              strokeWidth="3"
               strokeLinejoin="round"
             />
 
-            <circle cx="302" cy="120" r="4.5" fill="#e6c778" />
-            <text x="302" y="108" textAnchor="middle" fill="#a8adb6" fontSize="11">Ковров</text>
+            <circle cx="690" cy="263" r="9" fill="#e6c778" />
+            <text x="690" y="240" textAnchor="middle" fill="#a8adb6" fontSize="26">Ковров</text>
 
-            <circle cx="346" cy="204" r="4.5" fill="#e6c778" />
-            <text x="346" y="222" textAnchor="middle" fill="#a8adb6" fontSize="11">Муром</text>
+            <circle cx="792" cy="470" r="9" fill="#e6c778" />
+            <text x="792" y="500" textAnchor="middle" fill="#a8adb6" fontSize="26">Муром</text>
 
-            <circle cx="68" cy="78" r="4.5" fill="#e6c778" />
-            <text x="68" y="66" textAnchor="middle" fill="#a8adb6" fontSize="11">Александров</text>
+            <circle cx="109" cy="150" r="9" fill="#e6c778" />
+            <text x="140" y="185" textAnchor="start" fill="#a8adb6" fontSize="26">Александров</text>
 
-            <circle cx="202" cy="132" r="7" fill="#c9a24a" />
-            <circle cx="202" cy="132" r="14" fill="none" stroke="#c9a24a" strokeWidth="1" opacity="0.5" />
-            <text x="202" y="159" textAnchor="middle" fill="#f3f1ea" fontSize="13" fontFamily="var(--font-display)">
+            <circle cx="523" cy="239" r="14" fill="#c9a24a" />
+            <circle cx="523" cy="239" r="28" fill="none" stroke="#c9a24a" strokeWidth="2" opacity="0.5" />
+            <text x="523" y="285" textAnchor="middle" fill="#f3f1ea" fontSize="30" fontFamily="var(--font-display)">
               Владимир
             </text>
           </svg>
