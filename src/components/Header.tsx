@@ -11,7 +11,6 @@ const links = [
   { href: "/#about", label: "Почему мы" },
   { href: "/#portfolio", label: "Портфолио" },
   { href: "/#process", label: "Как работаем" },
-  { href: "/#coverage", label: "География" },
   { href: "/#contact", label: "Контакты" },
 ];
 

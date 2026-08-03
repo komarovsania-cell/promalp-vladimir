@@ -71,6 +71,26 @@ export default function Calculator() {
   const total = lines.reduce((acc, l) => acc + l.item.price * l.qty, 0);
   const previewSum = selected ? selected.price * (qty || 0) : 0;
 
+  function sendToContact() {
+    if (lines.length > 0) {
+      const summaryLines = lines
+        .map(
+          (l) =>
+            `• ${l.item.name} — ${l.qty} ${l.item.unit} × ${l.item.price.toLocaleString("ru-RU")} ₽ = ${formatRub(
+              l.item.price * l.qty
+            )}`
+        )
+        .join("\n");
+      const message = `Расчёт из калькулятора:\n${summaryLines}\n\nИтого (предварительно): ${formatRub(total)}`;
+
+      const categoryTitles = Array.from(new Set(lines.map((l) => l.item.categoryTitle)));
+      const service = categoryTitles.length === 1 ? categoryTitles[0] : undefined;
+
+      window.dispatchEvent(new CustomEvent("calculator-summary", { detail: { message, service } }));
+    }
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <section id="calculator" className="relative py-24 md:py-32 border-t border-ink-border">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
@@ -261,13 +281,14 @@ export default function Calculator() {
               <span className="font-display font-bold text-gold text-2xl">{formatRub(total)}</span>
             </div>
 
-            <a
-              href="#contact"
+            <button
+              type="button"
+              onClick={sendToContact}
               className="btn-primary group inline-flex items-center justify-center gap-2.5 rounded-full bg-gold text-ink font-semibold px-6 py-3.5 text-sm"
             >
               Отправить расчёт и получить точную цену
               <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </a>
+            </button>
           </Reveal>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useEffect, useRef, useState, FormEvent } from "react";
 import Reveal from "./Reveal";
 import { IconArrowRight, IconCheck, IconPhone } from "./icons";
 import { serviceCategories } from "@/data/services";
@@ -11,6 +11,19 @@ type Status = "idle" | "loading" | "success" | "error";
 export default function ContactForm({ defaultService }: { defaultService?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const serviceRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    function handleCalculatorSummary(e: Event) {
+      const detail = (e as CustomEvent<{ message: string; service?: string }>).detail;
+      if (!detail) return;
+      if (messageRef.current) messageRef.current.value = detail.message;
+      if (detail.service && serviceRef.current) serviceRef.current.value = detail.service;
+    }
+    window.addEventListener("calculator-summary", handleCalculatorSummary);
+    return () => window.removeEventListener("calculator-summary", handleCalculatorSummary);
+  }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -140,6 +153,7 @@ export default function ContactForm({ defaultService }: { defaultService?: strin
                   <select
                     id="service"
                     name="service"
+                    ref={serviceRef}
                     className="w-full rounded-xl border border-ink-border bg-ink/60 px-4 py-3 text-paper outline-none focus:border-gold/60 transition-colors text-sm appearance-none"
                     defaultValue={defaultService || ""}
                   >
@@ -162,6 +176,7 @@ export default function ContactForm({ defaultService }: { defaultService?: strin
                   <textarea
                     id="message"
                     name="message"
+                    ref={messageRef}
                     rows={3}
                     placeholder="Кратко опишите задачу и адрес объекта"
                     className="w-full rounded-xl border border-ink-border bg-ink/60 px-4 py-3 text-paper placeholder:text-paper-muted/50 outline-none focus:border-gold/60 transition-colors text-sm resize-none"
