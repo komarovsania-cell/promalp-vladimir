@@ -7,13 +7,11 @@ import { Icon } from "./IconMap";
 import { IconArrowRight, IconRuble } from "./icons";
 import { calculatorCategories, type CalcItem } from "@/data/calculator";
 
-type FlatItem = CalcItem & { categoryTitle: string; categoryIcon: string };
+type FlatItem = CalcItem & { categoryId: string; categoryTitle: string; categoryIcon: string };
 
 const ALL_ITEMS: FlatItem[] = calculatorCategories.flatMap((c) =>
-  c.items.map((i) => ({ ...i, categoryTitle: c.title, categoryIcon: c.icon }))
+  c.items.map((i) => ({ ...i, categoryId: c.id, categoryTitle: c.title, categoryIcon: c.icon }))
 );
-
-const SUGGESTIONS = ["Мойка окон", "Кровля", "Покраска фасада", "Антенна", "Гирлянда", "Утепление"];
 
 type Line = {
   key: string;
@@ -27,22 +25,38 @@ function formatRub(n: number) {
 
 export default function Calculator() {
   const [query, setQuery] = useState("");
+  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [selected, setSelected] = useState<FlatItem | null>(null);
   const [qty, setQty] = useState(1);
   const [lines, setLines] = useState<Line[]>([]);
+
+  const isSearching = query.trim().length >= 2;
+  const activeCategory = activeCategoryId ? calculatorCategories.find((c) => c.id === activeCategoryId) : null;
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (q.length < 2) return [];
     return ALL_ITEMS.filter(
       (i) => i.name.toLowerCase().includes(q) || i.categoryTitle.toLowerCase().includes(q)
-    ).slice(0, 40);
+    ).slice(0, 60);
   }, [query]);
+
+  const categoryItems = useMemo(() => {
+    if (!activeCategoryId) return [];
+    return ALL_ITEMS.filter((i) => i.categoryId === activeCategoryId);
+  }, [activeCategoryId]);
 
   function selectItem(item: FlatItem) {
     setSelected(item);
     setQuery("");
+    setActiveCategoryId(null);
     setQty(1);
+  }
+
+  function openCategory(id: string) {
+    setActiveCategoryId(id);
+    setQuery("");
+    setSelected(null);
   }
 
   function addLine() {
@@ -84,30 +98,66 @@ export default function Calculator() {
               <input
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Например: мойка окон, кровля, антенна..."
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  if (e.target.value.trim().length >= 2) setActiveCategoryId(null);
+                }}
+                placeholder="Например: остекление, кровля, дымоход..."
                 className="w-full rounded-xl border border-ink-border bg-ink px-4 py-3 text-sm text-paper focus:outline-none focus:border-gold/60"
               />
             </label>
 
-            {!query && !selected && (
-              <div className="flex flex-wrap gap-2 mb-2">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setQuery(s)}
-                    className="text-xs rounded-full border border-ink-border text-paper-muted hover:text-gold hover:border-gold/40 px-3 py-1.5 transition-colors"
-                  >
-                    {s}
-                  </button>
-                ))}
+            {!isSearching && !selected && !activeCategoryId && (
+              <div className="mb-2">
+                <span className="block text-xs uppercase tracking-wide text-paper-muted mb-2">
+                  Или выберите категорию ({calculatorCategories.length})
+                </span>
+                <div className="flex flex-wrap gap-2 max-h-56 overflow-y-auto pr-1">
+                  {calculatorCategories.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => openCategory(c.id)}
+                      className="text-xs rounded-full border border-ink-border text-paper-muted hover:text-gold hover:border-gold/40 px-3 py-1.5 transition-colors"
+                    >
+                      {c.title}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
-            {query.trim().length >= 2 && (
+            {!isSearching && activeCategory && !selected && (
+              <div className="mt-2">
+                <div className="flex items-center justify-between gap-3 mb-2">
+                  <span className="text-sm text-paper font-medium">{activeCategory.title}</span>
+                  <button
+                    onClick={() => setActiveCategoryId(null)}
+                    className="text-xs text-paper-muted hover:text-paper shrink-0"
+                  >
+                    Все категории
+                  </button>
+                </div>
+                <div className="max-h-80 overflow-y-auto rounded-xl border border-ink-border divide-y divide-ink-border">
+                  {categoryItems.map((r) => (
+                    <button
+                      key={r.id}
+                      onClick={() => selectItem(r)}
+                      className="w-full text-left flex items-center justify-between gap-3 px-4 py-3 hover:bg-ink-surface/70 transition-colors"
+                    >
+                      <span className="block text-sm text-paper leading-snug">{r.name}</span>
+                      <span className="shrink-0 text-sm font-display font-semibold text-gold whitespace-nowrap">
+                        {r.price.toLocaleString("ru-RU")} ₽/{r.unit}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {isSearching && (
               <div className="mt-2 max-h-80 overflow-y-auto rounded-xl border border-ink-border divide-y divide-ink-border">
                 {results.length === 0 ? (
-                  <p className="text-sm text-paper-muted px-4 py-4">Ничего не найдено — попробуйте другой запрос.</p>
+                  <p className="text-sm text-paper-muted px-4 py-4">Ничего не найдено — попробуйте другой запрос или выберите категорию ниже.</p>
                 ) : (
                   results.map((r) => (
                     <button
@@ -168,13 +218,6 @@ export default function Calculator() {
                   </button>
                 </div>
               </div>
-            )}
-
-            {!query && !selected && (
-              <p className="text-sm text-paper-muted mt-4">
-                Начните вводить название работы — например «мойка окон» или «покраска кровли» — и выберите нужную
-                позицию из списка.
-              </p>
             )}
           </Reveal>
 
