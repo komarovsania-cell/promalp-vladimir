@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 
 type Status = "idle" | "loading" | "success" | "error";
 
-export default function ContactForm() {
+export default function ContactForm({ defaultService }: { defaultService?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -141,7 +141,7 @@ export default function ContactForm() {
                     id="service"
                     name="service"
                     className="w-full rounded-xl border border-ink-border bg-ink/60 px-4 py-3 text-paper outline-none focus:border-gold/60 transition-colors text-sm appearance-none"
-                    defaultValue=""
+                    defaultValue={defaultService || ""}
                   >
                     <option value="" disabled>
                       Выберите категорию
