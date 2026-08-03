@@ -91,7 +91,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative hidden lg:flex items-center justify-center">
+        <div className="relative hidden lg:flex items-center justify-center" style={{ transform: "translateX(2cm)" }}>
           <div className="hero-photo-card relative w-full aspect-[3/4] max-w-sm rounded-[28px] border border-ink-border overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
