@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Reveal from "./Reveal";
 import RevealGroup from "./RevealGroup";
 import { Icon } from "./IconMap";
@@ -10,6 +10,17 @@ import { IconArrowRight } from "./icons";
 export default function Services() {
   const [active, setActive] = useState(serviceCategories[0].id);
   const current = serviceCategories.find((c) => c.id === active)!;
+
+  useEffect(() => {
+    function handleOpenCategory(e: Event) {
+      const id = (e as CustomEvent<string>).detail;
+      if (serviceCategories.some((c) => c.id === id)) {
+        setActive(id);
+      }
+    }
+    window.addEventListener("open-service-category", handleOpenCategory);
+    return () => window.removeEventListener("open-service-category", handleOpenCategory);
+  }, []);
 
   return (
     <section id="services" className="relative py-24 md:py-32 border-t border-ink-border">
