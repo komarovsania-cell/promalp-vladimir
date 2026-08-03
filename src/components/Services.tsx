@@ -14,7 +14,7 @@ export default function Services() {
   return (
     <section id="services" className="relative py-24 md:py-32 border-t border-ink-border">
       <div className="max-w-7xl mx-auto px-5 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div className="max-w-2xl">
             <Reveal as="p" className="text-xs uppercase tracking-[0.2em] text-gold mb-4">
               Прайс-лист
@@ -24,17 +24,18 @@ export default function Services() {
             </Reveal>
           </div>
           <Reveal as="p" delay={0.1} className="text-sm text-paper-muted max-w-sm">
-            Точная стоимость зависит от объёма и сложности объекта — уточняем на бесплатном
-            расчёте. Минимальная сумма заказа — 5 000 ₽.
+            Полный прайс-лист — {serviceCategories.length} категорий, {serviceCategories.reduce((a, c) => a + c.items.length, 0)}+
+            позиций с ценами для Владимира. Точная стоимость — на бесплатном расчёте.
+            Минимальная сумма заказа — 5 000 ₽.
           </Reveal>
         </div>
 
-        <div className="flex flex-wrap gap-2.5 mb-10">
+        <div className="flex flex-wrap gap-2 mb-8 max-h-56 overflow-y-auto pr-1 rounded-xl border border-ink-border p-3">
           {serviceCategories.map((c) => (
             <button
               key={c.id}
               onClick={() => setActive(c.id)}
-              className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-all border ${
+              className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs md:text-sm transition-all border ${
                 active === c.id
                   ? "bg-gold text-ink border-gold font-semibold"
                   : "border-ink-border text-paper-muted hover:border-gold/40 hover:text-paper"
@@ -46,10 +47,14 @@ export default function Services() {
           ))}
         </div>
 
-        <RevealGroup key={active} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" stagger={0.06}>
-          {current.items.map((item) => (
+        <RevealGroup
+          key={active}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[36rem] overflow-y-auto pr-1"
+          stagger={0.03}
+        >
+          {current.items.map((item, idx) => (
             <div
-              key={item.name}
+              key={`${current.id}-${idx}`}
               className="card-hover flex items-start justify-between gap-4 rounded-2xl border border-ink-border bg-ink-surface/40 p-6"
             >
               <span className="text-sm text-paper leading-snug">{item.name}</span>
