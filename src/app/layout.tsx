@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Unbounded, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
-const unbounded = Unbounded({
+const unbounded = Playfair_Display({
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-unbounded",
