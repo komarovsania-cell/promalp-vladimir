@@ -32,42 +32,42 @@ export default function Header() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-[4.5rem]">
-        <a href="#top" className="flex items-center gap-2.5 group">
+      <div className="max-w-[100rem] mx-auto px-5 md:px-8 flex items-center justify-between h-[4.5rem] gap-3">
+        <a href="#top" className="flex items-center gap-2.5 group shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
             alt={site.companyName}
             className="w-10 h-10 rounded-full transition-transform group-hover:scale-105"
           />
-          <span className="font-display font-semibold tracking-tight text-paper text-base md:text-lg">
+          <span className="font-display font-semibold tracking-tight text-paper text-base md:text-lg whitespace-nowrap">
             {site.companyName}
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-0.5 min-w-0">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-paper-muted hover:text-gold hover:bg-ink-surface/70 transition-colors px-3.5 py-2 rounded-full"
+              className="text-[13px] 2xl:text-sm text-paper-muted hover:text-gold hover:bg-ink-surface/70 transition-colors px-2.5 2xl:px-3.5 py-2 rounded-full whitespace-nowrap"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4 shrink-0">
           <a
             href={site.phoneHref}
-            className="flex items-center gap-2 text-paper hover:text-gold transition-colors text-sm font-medium"
+            className="hidden xl:flex items-center gap-2 text-paper hover:text-gold transition-colors text-sm font-medium whitespace-nowrap"
           >
             <IconPhone className="w-4 h-4 text-gold" />
             {site.phoneDisplay}
           </a>
           <a
             href="#contact"
-            className="btn-primary rounded-full px-5 py-2.5 text-ink text-sm font-semibold bg-gold"
+            className="btn-primary rounded-full px-5 py-2.5 text-ink text-sm font-semibold bg-gold whitespace-nowrap"
           >
             Оставить заявку
           </a>
@@ -76,7 +76,7 @@ export default function Header() {
         <button
           onClick={() => setOpen(!open)}
           aria-label="Меню"
-          className="lg:hidden flex flex-col gap-1.5 p-2"
+          className="xl:hidden flex flex-col gap-1.5 p-2 shrink-0"
         >
           <span className={`block w-6 h-[1.5px] bg-paper transition-transform ${open ? "translate-y-[6.5px] rotate-45" : ""}`} />
           <span className={`block w-6 h-[1.5px] bg-paper transition-opacity ${open ? "opacity-0" : ""}`} />
@@ -85,7 +85,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-ink-soft border-t border-ink-border px-5 py-6 flex flex-col gap-5">
+        <div className="xl:hidden bg-ink-soft border-t border-ink-border px-5 py-6 flex flex-col gap-5">
           {links.map((l) => (
             <a
               key={l.href}
