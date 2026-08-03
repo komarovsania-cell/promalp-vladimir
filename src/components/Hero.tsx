@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { IconArrowRight } from "./icons";
-import { site } from "@/lib/site";
 
 const stats = [
   { value: "10+", label: "лет опыта" },
@@ -48,8 +47,8 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
         <div>
-          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-ink-border bg-ink-surface/60 px-4 py-1.5 text-xs tracking-[0.18em] uppercase text-gold mb-8">
-            Промышленный альпинизм · {site.region}
+          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-ink-border bg-ink-surface/60 px-6 py-3 text-sm md:text-base tracking-[0.18em] uppercase text-gold mb-8">
+            Промышленный альпинизм · Владимир и область
           </div>
 
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.06] tracking-tight text-paper mb-7">
