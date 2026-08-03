@@ -5,12 +5,19 @@ import Reveal from "./Reveal";
 import RevealGroup from "./RevealGroup";
 import { Icon } from "./IconMap";
 import { IconArrowRight, IconRuble } from "./icons";
-import { calculatorCategories } from "@/data/calculator";
+import { calculatorCategories, type CalcItem } from "@/data/calculator";
+
+type FlatItem = CalcItem & { categoryTitle: string; categoryIcon: string };
+
+const ALL_ITEMS: FlatItem[] = calculatorCategories.flatMap((c) =>
+  c.items.map((i) => ({ ...i, categoryTitle: c.title, categoryIcon: c.icon }))
+);
+
+const SUGGESTIONS = ["Мойка окон", "Кровля", "Покраска фасада", "Антенна", "Гирлянда", "Утепление"];
 
 type Line = {
   key: string;
-  categoryId: string;
-  itemId: string;
+  item: FlatItem;
   qty: number;
 };
 
@@ -19,42 +26,36 @@ function formatRub(n: number) {
 }
 
 export default function Calculator() {
-  const [active, setActive] = useState(calculatorCategories[0].id);
-  const category = calculatorCategories.find((c) => c.id === active)!;
-  const [itemId, setItemId] = useState(category.items[0].id);
+  const [query, setQuery] = useState("");
+  const [selected, setSelected] = useState<FlatItem | null>(null);
   const [qty, setQty] = useState(1);
   const [lines, setLines] = useState<Line[]>([]);
 
-  const activeItem = category.items.find((i) => i.id === itemId) ?? category.items[0];
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (q.length < 2) return [];
+    return ALL_ITEMS.filter(
+      (i) => i.name.toLowerCase().includes(q) || i.categoryTitle.toLowerCase().includes(q)
+    ).slice(0, 40);
+  }, [query]);
 
-  function handleCategoryChange(id: string) {
-    setActive(id);
-    const cat = calculatorCategories.find((c) => c.id === id)!;
-    setItemId(cat.items[0].id);
+  function selectItem(item: FlatItem) {
+    setSelected(item);
+    setQuery("");
     setQty(1);
   }
 
   function addLine() {
-    if (!qty || qty <= 0) return;
-    setLines((prev) => [...prev, { key: `${Date.now()}-${itemId}`, categoryId: active, itemId, qty }]);
+    if (!selected || !qty || qty <= 0) return;
+    setLines((prev) => [...prev, { key: `${Date.now()}-${selected.id}`, item: selected, qty }]);
   }
 
   function removeLine(key: string) {
     setLines((prev) => prev.filter((l) => l.key !== key));
   }
 
-  const lineDetails = useMemo(
-    () =>
-      lines.map((l) => {
-        const cat = calculatorCategories.find((c) => c.id === l.categoryId)!;
-        const item = cat.items.find((i) => i.id === l.itemId)!;
-        return { ...l, cat, item, sum: item.price * l.qty };
-      }),
-    [lines]
-  );
-
-  const total = lineDetails.reduce((acc, l) => acc + l.sum, 0);
-  const previewSum = activeItem.price * (qty || 0);
+  const total = lines.reduce((acc, l) => acc + l.item.price * l.qty, 0);
+  const previewSum = selected ? selected.price * (qty || 0) : 0;
 
   return (
     <section id="calculator" className="relative py-24 md:py-32 border-t border-ink-border">
@@ -69,82 +70,112 @@ export default function Calculator() {
             </Reveal>
           </div>
           <Reveal as="p" delay={0.1} className="text-sm text-paper-muted max-w-sm">
-            Предварительный расчёт по ценам для Владимира. Точная стоимость — после
+            Полный каталог работ по ценам для Владимира. Точная стоимость — после
             бесплатного осмотра объекта нашим специалистом.
           </Reveal>
         </div>
 
         <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8">
           <Reveal className="rounded-2xl border border-ink-border bg-ink-surface/40 p-6 md:p-8">
-            <div className="flex flex-wrap gap-2.5 mb-8">
-              {calculatorCategories.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => handleCategoryChange(c.id)}
-                  className={`flex items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-all border ${
-                    active === c.id
-                      ? "bg-gold text-ink border-gold font-semibold"
-                      : "border-ink-border text-paper-muted hover:border-gold/40 hover:text-paper"
-                  }`}
-                >
-                  <Icon name={c.icon} className="w-4 h-4" />
-                  {c.title}
-                </button>
-              ))}
-            </div>
-
-            <div className="grid sm:grid-cols-[2fr_1fr] gap-4 mb-4">
-              <label className="block">
-                <span className="block text-xs uppercase tracking-wide text-paper-muted mb-2">Вид работ</span>
-                <select
-                  value={itemId}
-                  onChange={(e) => setItemId(e.target.value)}
-                  className="w-full rounded-xl border border-ink-border bg-ink px-4 py-3 text-sm text-paper focus:outline-none focus:border-gold/60"
-                >
-                  {category.items.map((i) => (
-                    <option key={i.id} value={i.id}>
-                      {i.name} — {i.price.toLocaleString("ru-RU")} ₽/{i.unit}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label className="block">
-                <span className="block text-xs uppercase tracking-wide text-paper-muted mb-2">
-                  Кол-во, {activeItem.unit}
-                </span>
-                <input
-                  type="number"
-                  min={0}
-                  step="0.5"
-                  value={qty}
-                  onChange={(e) => setQty(parseFloat(e.target.value) || 0)}
-                  className="w-full rounded-xl border border-ink-border bg-ink px-4 py-3 text-sm text-paper focus:outline-none focus:border-gold/60"
-                />
-              </label>
-            </div>
-
-            <p className="text-xs text-paper-muted mb-6">
-              Минимальная сумма заказа по разделу «{category.title}» — от{" "}
-              {category.minOrder.toLocaleString("ru-RU")} ₽.
-            </p>
-
-            <div className="flex items-center justify-between gap-4 flex-wrap rounded-xl bg-ink border border-ink-border px-5 py-4">
-              <span className="text-sm text-paper-muted">
-                {activeItem.name}, {qty || 0} {activeItem.unit}
+            <label className="block mb-3">
+              <span className="block text-xs uppercase tracking-wide text-paper-muted mb-2">
+                Поиск по прайсу ({ALL_ITEMS.length}+ позиций)
               </span>
-              <div className="flex items-center gap-4">
-                <span className="font-display font-semibold text-gold text-lg">
-                  ≈ {formatRub(Math.max(previewSum, 0))}
-                </span>
-                <button
-                  onClick={addLine}
-                  className="btn-primary rounded-full bg-gold text-ink text-sm font-semibold px-5 py-2.5"
-                >
-                  Добавить
-                </button>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Например: мойка окон, кровля, антенна..."
+                className="w-full rounded-xl border border-ink-border bg-ink px-4 py-3 text-sm text-paper focus:outline-none focus:border-gold/60"
+              />
+            </label>
+
+            {!query && !selected && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {SUGGESTIONS.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setQuery(s)}
+                    className="text-xs rounded-full border border-ink-border text-paper-muted hover:text-gold hover:border-gold/40 px-3 py-1.5 transition-colors"
+                  >
+                    {s}
+                  </button>
+                ))}
               </div>
-            </div>
+            )}
+
+            {query.trim().length >= 2 && (
+              <div className="mt-2 max-h-80 overflow-y-auto rounded-xl border border-ink-border divide-y divide-ink-border">
+                {results.length === 0 ? (
+                  <p className="text-sm text-paper-muted px-4 py-4">Ничего не найдено — попробуйте другой запрос.</p>
+                ) : (
+                  results.map((r) => (
+                    <button
+                      key={r.id}
+                      onClick={() => selectItem(r)}
+                      className="w-full text-left flex items-center justify-between gap-3 px-4 py-3 hover:bg-ink-surface/70 transition-colors"
+                    >
+                      <span>
+                        <span className="block text-sm text-paper leading-snug">{r.name}</span>
+                        <span className="block text-xs text-paper-muted mt-0.5">{r.categoryTitle}</span>
+                      </span>
+                      <span className="shrink-0 text-sm font-display font-semibold text-gold whitespace-nowrap">
+                        {r.price.toLocaleString("ru-RU")} ₽/{r.unit}
+                      </span>
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+
+            {selected && (
+              <div className="mt-5">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="flex items-center gap-2.5">
+                    <Icon name={selected.categoryIcon} className="w-4 h-4 text-gold shrink-0" />
+                    <div>
+                      <p className="text-sm text-paper leading-snug">{selected.name}</p>
+                      <p className="text-xs text-paper-muted mt-0.5">{selected.categoryTitle}</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="text-xs text-paper-muted hover:text-paper shrink-0"
+                  >
+                    Изменить
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-[1fr_auto] gap-4 items-end mb-4">
+                  <label className="block">
+                    <span className="block text-xs uppercase tracking-wide text-paper-muted mb-2">
+                      Кол-во, {selected.unit}
+                    </span>
+                    <input
+                      type="number"
+                      min={0}
+                      step="0.5"
+                      value={qty}
+                      onChange={(e) => setQty(parseFloat(e.target.value) || 0)}
+                      className="w-full rounded-xl border border-ink-border bg-ink px-4 py-3 text-sm text-paper focus:outline-none focus:border-gold/60"
+                    />
+                  </label>
+                  <button
+                    onClick={addLine}
+                    className="btn-primary rounded-full bg-gold text-ink text-sm font-semibold px-5 py-3 whitespace-nowrap"
+                  >
+                    Добавить · {formatRub(Math.max(previewSum, 0))}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {!query && !selected && (
+              <p className="text-sm text-paper-muted mt-4">
+                Начните вводить название работы — например «мойка окон» или «покраска кровли» — и выберите нужную
+                позицию из списка.
+              </p>
+            )}
           </Reveal>
 
           <Reveal delay={0.1} className="rounded-2xl border border-ink-border bg-ink-surface/40 p-6 md:p-8 flex flex-col">
@@ -153,13 +184,13 @@ export default function Calculator() {
               <h3 className="font-display font-semibold text-paper text-lg">Ваш расчёт</h3>
             </div>
 
-            {lineDetails.length === 0 ? (
+            {lines.length === 0 ? (
               <p className="text-sm text-paper-muted flex-1">
                 Добавьте виды работ слева, чтобы собрать предварительную смету.
               </p>
             ) : (
               <RevealGroup className="flex flex-col gap-3 mb-6 flex-1" stagger={0.04}>
-                {lineDetails.map((l) => (
+                {lines.map((l) => (
                   <div key={l.key} className="flex items-start justify-between gap-3 text-sm border-b border-ink-border pb-3">
                     <div>
                       <p className="text-paper leading-snug">{l.item.name}</p>
@@ -168,7 +199,7 @@ export default function Calculator() {
                       </p>
                     </div>
                     <div className="flex items-center gap-3 shrink-0">
-                      <span className="font-display font-semibold text-gold">{formatRub(l.sum)}</span>
+                      <span className="font-display font-semibold text-gold">{formatRub(l.item.price * l.qty)}</span>
                       <button
                         onClick={() => removeLine(l.key)}
                         aria-label="Удалить"
@@ -200,4 +231,3 @@ export default function Calculator() {
     </section>
   );
 }
-
