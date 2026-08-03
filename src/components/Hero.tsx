@@ -47,7 +47,7 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
         <div>
-          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-ink-border bg-ink-surface/60 px-6 py-3 text-sm md:text-base tracking-[0.18em] uppercase text-gold mb-8">
+          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-ink-border bg-ink-surface/60 px-7 py-3.5 text-base md:text-lg tracking-[0.16em] uppercase text-gold mb-8 whitespace-nowrap">
             Промышленный альпинизм · Владимир и область
           </div>
 
@@ -91,8 +91,8 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative hidden lg:flex items-center justify-center" style={{ transform: "translateX(2cm)" }}>
-          <div className="hero-photo-card relative w-full aspect-[3/4] max-w-sm rounded-[28px] border border-ink-border overflow-hidden">
+        <div className="relative hidden lg:flex items-center justify-center" style={{ transform: "translateX(1cm)" }}>
+          <div className="hero-photo-card relative w-full aspect-[3/4] max-w-md rounded-[28px] border border-ink-border overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/logo.png"
