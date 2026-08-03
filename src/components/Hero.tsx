@@ -54,7 +54,8 @@ export default function Hero() {
 
           <h1 className="font-display font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.06] tracking-tight text-paper mb-7">
             <span className="hero-line block overflow-hidden">Высотные работы</span>
-            <span className="hero-line block overflow-hidden text-gold">без лесов и посредников</span>
+            <span className="hero-line block overflow-hidden text-gold">Любая высота. Любая сложность.</span>
+            <span className="hero-line block overflow-hidden">Качество</span>
           </h1>
 
           <p className="hero-sub text-paper-muted text-base md:text-lg max-w-xl mb-10 leading-relaxed">
