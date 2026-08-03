@@ -13,6 +13,25 @@ function authHeaders(token: string) {
   return { Authorization: `OAuth ${token}` };
 }
 
+async function backupCorruptedFile(token: string): Promise<void> {
+  try {
+    const backupPath = DISK_PATH.replace(/\.xlsx$/i, "") + `_backup_${Date.now()}.xlsx`;
+    const copyRes = await fetch(
+      `${API_BASE}/copy?from=${encodeURIComponent(DISK_PATH)}&path=${encodeURIComponent(
+        backupPath
+      )}&overwrite=true`,
+      { method: "POST", headers: authHeaders(token) }
+    );
+    if (!copyRes.ok) {
+      console.error(`Backup copy failed with status ${copyRes.status}`);
+    } else {
+      console.error(`Corrupted leads file backed up to ${backupPath}`);
+    }
+  } catch (backupErr) {
+    console.error("Failed to back up corrupted leads.xlsx:", backupErr);
+  }
+}
+
 async function downloadExistingWorkbook(token: string): Promise<any> {
   const linkRes = await fetch(
     `${API_BASE}/download?path=${encodeURIComponent(DISK_PATH)}`,
@@ -30,8 +49,17 @@ async function downloadExistingWorkbook(token: string): Promise<any> {
 
   const buf = await fileRes.arrayBuffer();
   const wb = new ExcelJS.Workbook();
-  await wb.xlsx.load(buf as any);
-  return wb;
+  try {
+    await wb.xlsx.load(buf as any);
+    return wb;
+  } catch (parseErr) {
+    // Existing file on Yandex Disk is unreadable (corrupted / incompatible format).
+    // Preserve it under a timestamped backup name instead of losing data, then
+    // let the caller start a fresh workbook so new leads keep coming through.
+    console.error("Existing leads.xlsx failed to parse, will back up and start fresh:", parseErr);
+    await backupCorruptedFile(token);
+    return null;
+  }
 }
 
 function createWorkbook(): any {
