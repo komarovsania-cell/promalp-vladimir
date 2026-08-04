@@ -58,6 +58,9 @@ export const metadata: Metadata = {
     ],
     apple: "/icon.png",
   },
+  verification: {
+    google: "zp3adOCtHvbJtngArUztmCJDmTbw3JBF9bTyhv0lohE",
+  },
 };
 
 const jsonLd = {
