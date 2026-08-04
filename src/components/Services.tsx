@@ -6,6 +6,7 @@ import RevealGroup from "./RevealGroup";
 import { Icon } from "./IconMap";
 import { serviceCategories } from "@/data/services";
 import { IconArrowRight } from "./icons";
+import { site } from "@/lib/site";
 
 export default function Services() {
   const [active, setActive] = useState(serviceCategories[0].id);
@@ -37,7 +38,7 @@ export default function Services() {
           <Reveal as="p" delay={0.1} className="text-sm text-paper-muted max-w-sm">
             Полный прайс-лист — {serviceCategories.length} категорий, {serviceCategories.reduce((a, c) => a + c.items.length, 0)}+
             позиций с ценами для Владимира. Точная стоимость — на бесплатном расчёте.
-            Минимальная сумма заказа — 5 000 ₽.
+            Минимальная сумма заказа — {site.minOrder}.
           </Reveal>
         </div>
 
