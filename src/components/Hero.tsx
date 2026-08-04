@@ -7,7 +7,7 @@ import { IconArrowRight } from "./icons";
 const stats = [
   { value: "10+", label: "лет опыта" },
   { value: "2–4", label: "мастера в бригаде" },
-  { value: "5 000 ₽", label: "минимальный заказ" },
+  { value: "10 350 ₽", label: "минимальный заказ" },
 ];
 
 export default function Hero() {
