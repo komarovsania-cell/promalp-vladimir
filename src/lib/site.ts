@@ -7,5 +7,5 @@ export const site = {
   region: "Владимирская область",
   city: "Владимир",
   workHours: "Пн–Сб, 08:00–18:00",
-  minOrder: "5 000 ₽",
+  minOrder: "10 350 ₽",
 };
