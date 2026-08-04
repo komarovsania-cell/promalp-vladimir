@@ -19,7 +19,7 @@ export const featuredServices: FeaturedService[] = [
       "Наши промышленные альпинисты профессионально монтируют и демонтируют рекламные баннеры, вывески и конструкции на фасадах зданий любой высоты. Работаем без автовышки — там, где обычная техника подобраться не может: узкие дворы, плотная застройка, высотные объекты. Гарантируем надёжное крепление, аккуратный монтаж и соблюдение всех требований безопасности.",
     price: "от 355 ₽/м²",
     icon: "garland",
-    image: "https://images.unsplash.com/photo-1783169204574-f8231940911f?auto=format&fit=crop&w=1200&q=75",
+    image: "https://images.unsplash.com/photo-1628693155252-9d5c83aae1a4?auto=format&fit=crop&w=1200&q=75",
   },
   {
     slug: "moyka-okon-i-fasadov",
@@ -30,7 +30,7 @@ export const featuredServices: FeaturedService[] = [
       "Высотная мойка остекления, витражей, зенитных фонарей и балконов — вручную и с применением аппарата высокого давления. Убираем атмосферные загрязнения, водный камень и сложные пятна. Регулярный клининг фасада поддерживает презентабельный вид здания и увеличивает освещённость помещений за счёт чистых стёкол.",
     price: "от 70 ₽/м²",
     icon: "droplet",
-    image: "https://images.unsplash.com/photo-1769527818402-80a3a87ecb58?auto=format&fit=crop&w=1200&q=75",
+    image: "https://images.unsplash.com/photo-1774271101773-8e7cacedf12b?auto=format&fit=crop&w=1200&q=75",
   },
   {
     slug: "ochistka-snega-i-naledi",
@@ -63,7 +63,7 @@ export const featuredServices: FeaturedService[] = [
       "Полный демонтаж старого наполнения межпанельных швов, грунтование, заполнение пеной и герметизация одно- или двухкомпонентным герметиком. Устраняем протечки, промерзание и продувание в панельных домах — от точечного ремонта до полного обновления швов по всему фасаду.",
     price: "от 185 ₽/м.п.",
     icon: "garland",
-    image: "https://images.unsplash.com/photo-1685894162174-9b48935de04b?auto=format&fit=crop&w=1200&q=75",
+    image: "https://images.unsplash.com/photo-1745092707630-c00ef0a006c4?auto=format&fit=crop&w=1200&q=75",
   },
   {
     slug: "remont-dymovyh-trub",
@@ -74,7 +74,7 @@ export const featuredServices: FeaturedService[] = [
       "Сварочный ремонт, замена вантовых оттяжек, приваривание ходовых скоб и латочный ремонт коррозии металлических дымовых труб на высоте. Работаем без остановки работы котельной или производства — доступ альпинистов не требует демонтажа или строительных лесов.",
     price: "от 1 790 ₽/шт.",
     icon: "hammer",
-    image: "https://images.unsplash.com/photo-1759772238303-bc0b4430dd7e?auto=format&fit=crop&w=1200&q=75",
+    image: "https://images.unsplash.com/photo-1785560035648-aa290b29ec45?auto=format&fit=crop&w=1200&q=75",
   },
   {
     slug: "pokraska-fasadov",
@@ -85,7 +85,7 @@ export const featuredServices: FeaturedService[] = [
       "Полный цикл окрасочных работ на фасаде: очистка поверхности, шпатлевание, шлифование, огрунтовка, покраска и гидрофобизация. При необходимости наносим противогрибковую обработку. Обновляем внешний вид здания и защищаем фасад от влаги и разрушения — с гарантией на материалы и работу.",
     price: "от 75 ₽/м²",
     icon: "roller",
-    image: "https://images.unsplash.com/photo-1761625291169-44e97331f370?auto=format&fit=crop&w=1200&q=75",
+    image: "https://images.unsplash.com/photo-1779292348440-25d0ce2462ab?auto=format&fit=crop&w=1200&q=75",
   },
   {
     slug: "elektromontazh-na-vysote",
