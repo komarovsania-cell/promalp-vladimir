@@ -46,8 +46,8 @@ export default function Hero() {
       }} />
 
       <div className="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-center">
-        <div>
-          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-full border border-ink-border bg-ink-surface/60 px-7 py-3.5 text-base md:text-lg tracking-[0.16em] uppercase text-gold mb-8 whitespace-nowrap">
+        <div className="min-w-0">
+          <div className="hero-eyebrow inline-flex items-center gap-2 rounded-2xl sm:rounded-full border border-ink-border bg-ink-surface/60 px-4 py-2.5 sm:px-7 sm:py-3.5 text-xs sm:text-base md:text-lg tracking-[0.1em] sm:tracking-[0.16em] uppercase text-gold mb-8 whitespace-normal sm:whitespace-nowrap text-center">
             Промышленный альпинизм · Владимир и область
           </div>
 
